@@ -29,7 +29,7 @@ public class VisibilityCommand {
         };
 
         Dispatcher.register(literal("visibility")
-                .then(literal("whitelist")
+                .then(literal("blacklist")
                         .then(literal("add")
                                 .then(argument("username", string())
                                         .executes(ctx -> {

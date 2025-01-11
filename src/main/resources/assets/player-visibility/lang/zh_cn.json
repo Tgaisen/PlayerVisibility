@@ -1,0 +1,9 @@
+{
+  "key.player-visibility.toggle": "切换玩家可见度",
+  "category.player-visibility.main": "玩家可见度 （Player Visibility）",
+  "text.autoconfig.player-visibility.title": "玩家可见度配置",
+
+  "text.autoconfig.player-visibility.option.PlayerWhitelist.@PrefixText": "如果您想变更黑名单，请使用指令 /visibility blacklist，而非变更下方内容。",
+  "text.autoconfig.player-visibility.option.PlayerWhitelist": "玩家可见度黑名单",
+  "text.autoconfig.player-visibility.option.MainColor": "主要文字颜色"
+}

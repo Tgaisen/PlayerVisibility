@@ -47,7 +47,7 @@ public class PlayerVisibility implements ModInitializer {
         ConfigDirectory = FabricLoader.getInstance().getConfigDir().resolve("player-visibility");
         try {
             Files.createDirectories(ConfigDirectory);
-            if (Files.exists(ConfigDirectory.resolve("whitelisted-players.txt"))) {
+            if (Files.exists(ConfigDirectory.resolve("blacklisted-players.txt"))) {
                 try {
                     WhitelistedPlayers = ConfigUtil.Load();//new String[]{ };
                 } catch (IOException e) {
@@ -56,7 +56,7 @@ public class PlayerVisibility implements ModInitializer {
                 }
             } else {
                 WhitelistedPlayers = new String[]{};
-                Files.createFile(ConfigDirectory.resolve("whitelisted-players.txt"));
+                Files.createFile(ConfigDirectory.resolve("blacklisted-players.txt"));
             }
         } catch (IOException e) {
             WhitelistedPlayers = new String[]{};
@@ -84,7 +84,7 @@ public class PlayerVisibility implements ModInitializer {
             try {
                 ConfigUtil.Save(WhitelistedPlayers);
             } catch (IOException e) {
-                LOGGER.error("Failed to save whitelisted players to `whitelisted-players.txt`", e);
+                LOGGER.error("无法将玩家数据保存至 `blacklisted-players.txt`", e);
             }
         });
 
@@ -99,11 +99,11 @@ public class PlayerVisibility implements ModInitializer {
 
     public static void ToggleVisibility() {
         Visible = !Visible;
-        String VisibleString = "§coff";
+        String VisibleString = "§c隐藏";
         if (Visible) {
-            VisibleString = "§aon";
+            VisibleString = "§a显示";
         }
-        Minecraft.player.sendMessage(Text.of(String.format("§%cPlayer Visibility§f is now §f%s§f", ModConfig.INSTANCE.MainColor.GetChar(), VisibleString)), true);
+        Minecraft.player.sendMessage(Text.of(String.format("§%c§f%s§f黑名单中的玩家", ModConfig.INSTANCE.MainColor.GetChar(), VisibleString)), true);
     }
 
     public static boolean IsVisible() {
@@ -118,49 +118,49 @@ public class PlayerVisibility implements ModInitializer {
         String CasedName = ArrayListUtil.GetCase(WhitelistedPlayers, Username);
 
         if (Username.equalsIgnoreCase(Minecraft.player.getName().getString())) {
-            Minecraft.player.sendMessage(Text.of("§cYou can't whitelist yourself!"), true);
+            Minecraft.player.sendMessage(Text.of("§c这不是你自己吗？"), true);
             return;
         }
 
         if (ArrayListUtil.ContainsLowercase(WhitelistedPlayers, Username)) {
-            Minecraft.player.sendMessage(Text.of(String.format("§f '%s'§c is already whitelisted!", CasedName)), true);
+            Minecraft.player.sendMessage(Text.of(String.format("§f “%s”§c已经在黑名单中", CasedName)), true);
             return;
         }
 
         WhitelistedPlayers = ArrayListUtil.AddStringToArray(WhitelistedPlayers, Username);
         ModConfig.PlayerWhitelist = PlayerVisibility.GetWhitelistedPlayers();
-        Minecraft.player.sendMessage(Text.of(String.format("§aAdded §f'%s'§a to the whitelist.", CasedName)), true);
+        Minecraft.player.sendMessage(Text.of(String.format("§a已将 §f“%s” §a添加至黑名单", CasedName)), true);
     }
 
     public static void UnwhitelistPlayer(String Username) {
         String CasedName = ArrayListUtil.GetCase(WhitelistedPlayers, Username);
 
         if (Username.equalsIgnoreCase(Minecraft.player.getName().getString())) {
-            Minecraft.player.sendMessage(Text.of("§cYou can't unwhitelist yourself!"), true);
+            Minecraft.player.sendMessage(Text.of("§c这不是你自己吗？"), true);
             return;
         }
 
         if (!ArrayListUtil.ContainsLowercase(WhitelistedPlayers, Username)) {
-            Minecraft.player.sendMessage(Text.of(String.format("§f'%s'§c is not whitelisted!", CasedName)), true);
+            Minecraft.player.sendMessage(Text.of(String.format("§f“%s”§c 不在黑名单中！", CasedName)), true);
             return;
         }
 
         WhitelistedPlayers = ArrayListUtil.RemoveStringToArray(WhitelistedPlayers, CasedName);
         ModConfig.PlayerWhitelist = PlayerVisibility.GetWhitelistedPlayers();
-        Minecraft.player.sendMessage(Text.of(String.format("§aRemoved §f'%s'§a from the whitelist.", CasedName)), true);
+        Minecraft.player.sendMessage(Text.of(String.format("§a已将 §f“%s”§a 移出黑名单。", CasedName)), true);
     }
 
     public static void ClearWhitelist() {
         int SizeBeforeClear = WhitelistedPlayers.length;
 
         if (SizeBeforeClear == 0) {
-            Minecraft.player.sendMessage(Text.of(String.format("§cThe whitelist is already empty §f(§c%s§f)", SizeBeforeClear)), true);
+            Minecraft.player.sendMessage(Text.of(String.format("§c黑名单已经为空 §f（§c%s§f）", SizeBeforeClear)), true);
             return;
         }
 
         WhitelistedPlayers = new String[]{};
         ModConfig.PlayerWhitelist = PlayerVisibility.GetWhitelistedPlayers();
-        Minecraft.player.sendMessage(Text.of(String.format("§aCleared the whitelist §f(§a%s§f)", SizeBeforeClear)), true);
+        Minecraft.player.sendMessage(Text.of(String.format("§a已清空黑名单 §f（§a%s§f）", SizeBeforeClear)), true);
 
     }
 

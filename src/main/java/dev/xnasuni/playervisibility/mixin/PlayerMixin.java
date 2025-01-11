@@ -23,6 +23,10 @@ public class PlayerMixin {
         }
 
         if (ArrayListUtil.ContainsLowercase(PlayerVisibility.GetWhitelistedPlayers(), abstractClientPlayerEntity.getName().getString())) {
+            //ShouldShowPlayer = true;
+        }
+        else
+        {
             ShouldShowPlayer = true;
         }
 
