@@ -12,9 +12,8 @@
 	  "yichifauzi"
   ],
   "contact": {
-    "homepage": "",
-    "sources": "https://github.com/xNasuni/PlayerVisibility",
-    "issues": "https://github.com/xNasuni/PlayerVisibility/issues"
+    "homepage": "https://github.com/Tgaisen/PlayerVisibility",
+    "sources": "https://github.com/Tgaisen/PlayerVisibility"
   },
 
   "license": "BSD 3 Clause",
